@@ -1,0 +1,17 @@
+version: '2'
+services:
+  checklist-app:
+    image: checklist
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=prod,swagger
+      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
+      - SPRING_DATA_MONGODB_URI=mongodb://checklist-mongodb:27017
+      - SPRING_DATA_MONGODB_DATABASE=checklist
+      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+    ports:
+      - 8080:8080
+  checklist-mongodb:
+    extends:
+      file: mongodb.yml
+      service: checklist-mongodb

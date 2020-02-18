@@ -1,0 +1,16 @@
+version: '2'
+services:
+  checklist-mongodb:
+    image: mongo:4.0.13
+    ports:
+      - '27017:27017'
+    command: mongos --configdb checklist-mongodb-config
+  checklist-mongodb-node:
+    build:
+      context: .
+      dockerfile: mongodb/MongoDB.Dockerfile
+    command: mongod --replSet rs1 --noprealloc --smallfiles
+  checklist-mongodb-config:
+    image: mongo:4.0.13
+    container_name: checklist-mongodb-config
+    command: mongod --noprealloc --smallfiles --configsvr --dbpath /data/db
